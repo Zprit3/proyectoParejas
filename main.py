@@ -63,6 +63,11 @@ def obtener_puntaje_y_votos(nombre_pelicula):
             cantidad_votos = int(partes[3])  # Extrae datos
 
             return puntaje_promedio, cantidad_votos
+        else:
+            print(
+                f"El nombre de la pelicula ({nombre_pelicula}) no se encuentra en el archivo"
+            )
+            return "no hay", "no hay"
 
 
 def filtrar_y_ordenar(genero_pelicula):
