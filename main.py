@@ -13,7 +13,6 @@ def cargar_datos(lineas_archivo):
             continue  # Ignoramos la linea si tiene el formato incorrecto
 
         titulo = partes[0].strip()
-
         popularidad = float(partes[1].strip())
         voto_promedio = float(partes[2].strip())
         cantidad_votos = int(partes[3].strip())
@@ -21,7 +20,6 @@ def cargar_datos(lineas_archivo):
 
         # Aca agregamos generos unicos a generos_peliculas
         for genero in generos:
-            genero = genero.strip()
             if (
                 genero and genero not in generos_peliculas
             ):  # Aca se comprueba: 1° genero no esta vacio. 2° si genero "NO" esta en generos_peliculas
@@ -41,6 +39,7 @@ def cargar_datos(lineas_archivo):
             (titulo, popularidad, voto_promedio, cantidad_votos, generos)
         )
 
+    # el for de linas termina aqui
     # Convertimos peliculas_por_genero a una lista de tuplas
     peliculas_por_genero = [
         (genero, peliculas_por_genero[genero]) for genero in generos_peliculas
@@ -56,9 +55,9 @@ def obtener_puntaje_y_votos(nombre_pelicula):
     for linea in lineas_archivo:
         partes = linea.strip().split(",")
 
-        # Este if de abajo es para saber: 1° la linea tiene mas de un elemento,
-        # 2° Verifica si el nombre de la pelicula en la primera columna (partes[0], que representa el titulo)
-        # coincide con el nombre de la película que se busca (nombre_pelicula). Si coinciden, entonces esta es la pelicula correcta.
+        """ Este if de abajo es para saber: 1° la linea tiene mas de un elemento,
+            2° Verifica si el nombre de la pelicula en la primera columna (partes[0], que representa el titulo)
+            coincide con el nombre de la película que se busca (nombre_pelicula). Si coinciden, entonces esta es la pelicula correcta."""
         if len(partes) > 1 and partes[0].strip() == nombre_pelicula:
             puntaje_promedio = float(partes[2])  # Extrae datos
             cantidad_votos = int(partes[3])  # Extrae datos
@@ -80,7 +79,7 @@ def filtrar_y_ordenar(genero_pelicula):
             return sorted(peliculas, reverse=True)
 
     # Si el genero no existe, devolver una lista vacia
-    return []
+    return ["No hay peliculas"]
 
 
 def obtener_estadisticas(genero_pelicula, criterio):
@@ -89,11 +88,11 @@ def obtener_estadisticas(genero_pelicula, criterio):
     _, _, info_peliculas = cargar_datos(lineas_archivo)  # Mismo TODO linea 62
 
     # Filtrar peliculas por el género dado
-    peliculas_filtradas = [
+    peliculas_filtradas_por_genero = [
         pelicula for pelicula in info_peliculas if genero_pelicula in pelicula[4]
     ]
 
-    if not peliculas_filtradas:
+    if not peliculas_filtradas_por_genero:
         print(f"No se encontraron películas del género {genero_pelicula}")
         return [None, None, None]
 
@@ -108,9 +107,8 @@ def obtener_estadisticas(genero_pelicula, criterio):
         print("Criterio no válido")
         return [None, None, None]
 
-    # Extraer los valores correspondientes al criterio
-    valores = [pelicula[indice] for pelicula in peliculas_filtradas]
-
+    # Se extraen los valores correspondientes al criterio
+    valores = [pelicula[indice] for pelicula in peliculas_filtradas_por_genero]
     # Calcular maximo, minimo y promedio
     maximo = max(valores)
     minimo = min(valores)
