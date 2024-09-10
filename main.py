@@ -52,22 +52,20 @@ def cargar_datos(lineas_archivo):
 def obtener_puntaje_y_votos(nombre_pelicula):
     # Cargamos las lineas con la data del archivo
     lineas_archivo = leer_archivo()
+
+    # Recorremos cada linea del archivo
     for linea in lineas_archivo:
         partes = linea.strip().split(",")
 
-        """ Este if de abajo es para saber: 1° la linea tiene mas de un elemento,
-            2° Verifica si el nombre de la pelicula en la primera columna (partes[0], que representa el titulo)
-            coincide con el nombre de la película que se busca (nombre_pelicula). Si coinciden, entonces esta es la pelicula correcta."""
+        # Verificar si la linea tiene mas de un elemento y coincide con el nombre de la pelicula
         if len(partes) > 1 and partes[0].strip() == nombre_pelicula:
             puntaje_promedio = float(partes[2])  # Extrae datos
             cantidad_votos = int(partes[3])  # Extrae datos
-
             return puntaje_promedio, cantidad_votos
-        else:
-            print(
-                f"El nombre de la pelicula ({nombre_pelicula}) no se encuentra en el archivo"
-            )
-            return "no hay", "no hay"
+
+    # Si no se encontro la pelicula después de recorrer todo el archivo
+    print(f"El nombre de la película ({nombre_pelicula}) no se encuentra en el archivo")
+    return "no hay", "no hay"
 
 
 def filtrar_y_ordenar(genero_pelicula):
@@ -75,7 +73,7 @@ def filtrar_y_ordenar(genero_pelicula):
     lineas_archivo = leer_archivo()
     _, peliculas_por_genero, _ = cargar_datos(
         lineas_archivo
-    )  # Entiendo que se puede utilizar guion_bajo para reemplazar variables que no usare. TODO consultar
+    )  # Entiendo que se puede utilizar guion_bajo para reemplazar variables que no usare
 
     # Buscar las peliculas por el genero proporcionado
     for genero, peliculas in peliculas_por_genero:
@@ -90,7 +88,7 @@ def filtrar_y_ordenar(genero_pelicula):
 def obtener_estadisticas(genero_pelicula, criterio):
     # Cargar las lineas con la data del archivo
     lineas_archivo = leer_archivo()
-    _, _, info_peliculas = cargar_datos(lineas_archivo)  # Mismo TODO linea 62
+    _, _, info_peliculas = cargar_datos(lineas_archivo)
 
     # Filtrar peliculas por el género dado
     peliculas_filtradas_por_genero = [
